@@ -6,7 +6,10 @@ class MatchesController < ApplicationController
   end
   def show
     @match = Match.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to matches_path, alert: "Ce match n'existe pas ou a été supprimé."
   end
+
   def new
     @match = Match.new
   end
@@ -20,7 +23,23 @@ class MatchesController < ApplicationController
   end
   def edit
     @match = Match.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to matches_path, alert: "Ce match n'existe pas ou a été supprimé."
   end
+  def update
+    @match = Match.find(params[:id])
+    if @match.update(match_params)
+      redirect_to @match, notice: "Match mis à jour avec succès."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+  def destroy
+    @match = Match.find(params[:id])
+    @match.destroy
+    redirect_to matches_path, notice: "Match supprimé avec succès."
+  end
+
 private
 
 def match_params

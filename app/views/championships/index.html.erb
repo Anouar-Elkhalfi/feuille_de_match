@@ -1,0 +1,26 @@
+<h1>Championnnats</h1>
+
+<%= link_to "Nouveau championnat", new_championship_path, class: "btn btn-success mb-3" %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Saison</th>
+      <th>Créé le</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @championships.each do |championship| %>
+      <tr>
+        <td><%= championship.name %></td>
+        <td><%= championship.season.name %></td>
+        <td><%= l(championship.created_at, format: :short) %></td>
+        <td>
+          <%= link_to "Voir", championship_path(championship), class: "btn btn-sm btn-primary" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

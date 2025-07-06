@@ -1,4 +1,15 @@
 <%= form_with(model: match) do |f| %>
+<% if match.errors.any? %>
+  <div class="alert alert-danger">
+    <h4><%= pluralize(match.errors.count, "erreur") %> empêchent l'enregistrement :</h4>
+    <ul>
+      <% match.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
   <div class="row">
     <div class="col-md-6">
       <%= f.label :date %>

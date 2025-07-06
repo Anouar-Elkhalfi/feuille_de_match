@@ -3,3 +3,6 @@
   <strong>Stade :</strong>
   <%= @match.stadium %>
 </p>
+<%= link_to "Supprimer ce match", @match,
+  data: { turbo_method: :delete, turbo_confirm: "Es-tu sûr de vouloir supprimer ce match ?" },
+  class: "btn btn-danger" %>

@@ -1,0 +1,24 @@
+<%= form_with(model: championship) do |f| %>
+  <% if championship.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(championship.errors.count, "erreur") %> empêchent la sauvegarde :</h4>
+      <ul>
+        <% championship.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :name, "Nom du championnat" %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :season_id, "Saison" %>
+    <%= f.collection_select :season_id, Season.all, :id, :name, prompt: "Sélectionner", class: "form-control" %>
+  </div>
+
+  <%= f.submit class: "btn btn-primary" %>
+<% end %>

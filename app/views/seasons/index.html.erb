@@ -1,0 +1,24 @@
+<h1>Saisons</h1>
+
+<%= link_to "Nouvelle saison", new_season_path, class: "btn btn-success mb-3" %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Créée le</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @seasons.each do |season| %>
+      <tr>
+        <td><%= season.name %></td>
+        <td><%= l(season.created_at, format: :short) %></td>
+        <td>
+          <%= link_to "Voir", season_path(season), class: "btn btn-sm btn-primary" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

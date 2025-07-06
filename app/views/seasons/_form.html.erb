@@ -1,0 +1,19 @@
+<%= form_with(model: season) do |f| %>
+  <% if season.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(season.errors.count, "erreur") %> empêchent la sauvegarde :</h4>
+      <ul>
+        <% season.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :name, "Nom de la saison" %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <%= f.submit class: "btn btn-primary" %>
+<% end %>

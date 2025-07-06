@@ -1,2 +1,37 @@
 <h1>Liste des matchs</h1>
 
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Heure</th>
+      <th>Stade</th>
+      <th>Club recevant</th>
+      <th>Club visiteur</th>
+      <th>Division</th>
+      <th>Score</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @matches.each do |match| %>
+      <tr>
+        <td><%= l(match.date) %></td>
+        <td><%= match.kickoff_time.strftime("%H:%M") %></td>
+        <td><%= match.stadium %></td>
+        <td><%= match.home_club.name %></td>
+        <td><%= match.away_club.name %></td>
+        <td><%= match.division.name %></td>
+        <td><%= match.home_score %> - <%= match.away_score %></td>
+        <td>
+          <%= link_to "Voir", match, class: "btn btn-sm btn-primary" %>
+          <%= link_to "Modifier", edit_match_path(match), class: "btn btn-sm btn-secondary" %>
+          <%= link_to "Supprimer", match, data: { turbo_method: :delete, turbo_confirm: "Es-tu sûr ?" }, class: "btn btn-sm btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Nouveau match", new_match_path, class: "btn btn-success" %>
+
