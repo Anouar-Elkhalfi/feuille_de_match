@@ -21,6 +21,23 @@ class ChampionshipsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_to championships_path, alert: "Ce championnat n'existe pas ou a été supprimé."
   end
+  def update
+    @championship = Championship.find(params[:id])
+    if @championship.update(championship_params)
+      redirect_to championships_path, notice: "Championnat mis à jour avec succès."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+    rescue ActiveRecord::RecordNotFound
+    redirect_to championships_path, alert: "Ce championnat n'existe pas ou a été supprimé."
+  end
+  def destroy
+    @championship = Championship.find(params[:id])
+    @championship.destroy
+    redirect_to championships_path, notice: "Championnat supprimé avec succès."
+  rescue ActiveRecord::RecordNotFound
+    redirect_to championships_path, alert: "Ce championnat n'existe pas ou a été supprimé."
+  end
   private
 
   def championship_params

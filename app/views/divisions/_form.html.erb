@@ -1,0 +1,24 @@
+<%= form_with(model: division) do |f| %>
+  <% if division.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(division.errors.count, "erreur") %> empêchent la sauvegarde :</h4>
+      <ul>
+        <% division.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :name, "Nom de la division" %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :championship_id, "Championnat" %>
+    <%= f.collection_select :championship_id, Championship.all, :id, :name, prompt: "Sélectionner", class: "form-control" %>
+  </div>
+
+  <%= f.submit class: "btn btn-primary" %>
+<% end %>

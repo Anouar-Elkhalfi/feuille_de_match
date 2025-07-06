@@ -1,0 +1,62 @@
+<h1>Calendrier des matchs</h1>
+
+<div class="row mb-4">
+  <div class="col-md-4">
+    <%= form_with url: calendar_path, method: :get, local: true do |f| %>
+      <div class="mb-3">
+        <%= label_tag :season_id, "Saison" %>
+        <%= select_tag :season_id,
+          options_from_collection_for_select(@seasons, :id, :name, params[:season_id]),
+          prompt: "Toutes les saisons",
+          class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= label_tag :championship_id, "Championnat" %>
+        <%= select_tag :championship_id,
+          options_from_collection_for_select(@championships, :id, :name, params[:championship_id]),
+          prompt: "Tous les championnats",
+          class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= label_tag :division_id, "Division" %>
+        <%= select_tag :division_id,
+          options_from_collection_for_select(@divisions, :id, :name, params[:division_id]),
+          prompt: "Toutes les divisions",
+          class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= label_tag :match_day, "Journée" %>
+        <%= select_tag :match_day,
+          options_for_select((1..26).map { |n| ["#{n}ème journée", n] }, params[:match_day]),
+          prompt: "Toutes les journées",
+          class: "form-control" %>
+      </div>
+
+      <%= f.submit "Filtrer", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Heure</th>
+      <th>Match</th>
+      <th>Division</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @matches.each do |match| %>
+      <tr>
+        <td><%= l(match.date) %></td>
+        <td><%= match.kickoff_time.strftime("%H:%M") %></td>
+        <td><%= match.home_club.name %> vs <%= match.away_club.name %></td>
+        <td><%= match.division.name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

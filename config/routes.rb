@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :matches
   resources :seasons
   resources :championships
+  resources :divisions
+  get "/calendar", to: "calendars#index", as: :calendar
 
   # Defines the root path route ("/")
   # root "posts#index"

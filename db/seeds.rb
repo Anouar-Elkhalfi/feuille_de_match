@@ -16,44 +16,63 @@ Club.destroy_all
 
 # 2. Create Seasons
 puts "Creating seasons..."
-season = Season.create!(name: "2024-2025")
-puts "Created season #{season.name}"
+seasons = []
+["2024-2025", "2025-2026"].each do |year|
+  seasons << Season.create!(name: year)
+end
+puts "Created #{seasons.size} seasons"
 
-# 3. Create Championship
+# 3. Create Championships per season
 puts "Creating championships..."
-championship = Championship.create!(name: "Dimanche", season: season)
-puts "Created championship #{championship.name}"
+championships = []
+seasons.each do |season|
+  championships << Championship.create!(name: "Foot à 11 - Elite - #{season.name}", season: season)
+  championships << Championship.create!(name: "Foot à 11 - Challenge - #{season.name}", season: season)
+  championships << Championship.create!(name: "Foot à 7 - Elite - #{season.name}", season: season)
+  championships << Championship.create!(name: "Foot à 7 - Challenge - #{season.name}", season: season)
+end
+puts "Created #{championships.size} championships"
 
-# 4. Create Divisions
+# 4. Create Divisions per championship
 puts "Creating divisions..."
-division = Division.create!(name: "1ère division Elite", championship: championship)
-puts "Created division #{division.name}"
+divisions = []
+championships.each do |championship|
+  divisions << Division.create!(name: "Division A - #{championship.name}", championship: championship)
+  divisions << Division.create!(name: "Division B - #{championship.name}", championship: championship)
+end
+puts "Created #{divisions.size} divisions"
 
-# 5. Create Clubs
+# 5. Create 12 Clubs
 puts "Creating clubs..."
-club1 = Club.create!(name: "FC Atlas")
-club2 = Club.create!(name: "US Casablanca")
-puts "Created clubs #{club1.name} and #{club2.name}"
+clubs = []
+(1..12).each do |i|
+  clubs << Club.create!(name: "Club #{i}")
+end
+puts "Created #{clubs.size} clubs"
 
-# 6. Create Referees
-puts "Creating referees..."
+# 6. Create Referee
+puts "Creating referee..."
 referee = Referee.create!(first_name: "Ali", last_name: "Benali", license_number: "REF123")
 puts "Created referee #{referee.first_name} #{referee.last_name}"
 
-# 7. Create Matches
+# 7. Create Matches per division
 puts "Creating matches..."
-Match.create!(
-  date: Date.today,
-  kickoff_time: Time.now,
-  stadium: "Stade Municipal",
-  home_club: club1,
-  away_club: club2,
-  referee: referee,
-  division: division,
-  home_score: 2,
-  away_score: 1
-)
-puts "Created match FC Atlas vs US Casablanca"
+divisions.each do |division|
+  6.times do |index|
+    home, away = clubs.sample(2)
+    Match.create!(
+      date: Date.today + rand(1..60).days,
+      kickoff_time: Time.now.change(hour: rand(14..20), min: [0,30].sample),
+      stadium: "Stade #{['Municipal', 'National', 'Olympique'].sample}",
+      home_club: home,
+      away_club: away,
+      referee: referee,
+      division: division,
+      match_day: index + 1,
+      home_score: rand(0..3),
+      away_score: rand(0..3)
+    )
+  end
+end
 
-# 8. Display a message 🎉
-puts "Finished! Created #{Match.count} matches."
+puts "Created #{Match.count} matches 🎉"

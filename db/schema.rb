@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_06_143741) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_06_195540) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,6 +71,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_06_143741) do
     t.boolean "report_submitted"
     t.boolean "home_signature"
     t.boolean "away_signature"
+    t.integer "match_day"
     t.index ["away_club_id"], name: "index_matches_on_away_club_id"
     t.index ["division_id"], name: "index_matches_on_division_id"
     t.index ["home_club_id"], name: "index_matches_on_home_club_id"

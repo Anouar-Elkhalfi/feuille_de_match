@@ -1,0 +1,26 @@
+<h1>Divisions</h1>
+
+<%= link_to "Nouvelle division", new_division_path, class: "btn btn-success mb-3" %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Championnat</th>
+      <th>Créée le</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @divisions.each do |division| %>
+      <tr>
+        <td><%= division.name %></td>
+        <td><%= division.championship.name %></td>
+        <td><%= l(division.created_at, format: :short) %></td>
+        <td>
+          <%= link_to "Voir", division_path(division), class: "btn btn-sm btn-primary" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
