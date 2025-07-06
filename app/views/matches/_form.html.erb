@@ -1,0 +1,52 @@
+<%= form_with(model: match) do |f| %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= f.label :date %>
+      <%= f.date_field :date, class: "form-control" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :kickoff_time %>
+      <%= f.time_field :kickoff_time, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :stadium %>
+    <%= f.text_field :stadium, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :home_club_id, "Club recevant" %>
+    <%= f.collection_select :home_club_id, Club.all, :id, :name, prompt: "Sélectionner", class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :away_club_id, "Club visiteur" %>
+    <%= f.collection_select :away_club_id, Club.all, :id, :name, prompt: "Sélectionner", class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :referee_id, "Arbitre" %>
+    <%= f.collection_select :referee_id, Referee.all, :id, ->(r) { "#{r.first_name} #{r.last_name}" }, prompt: "Sélectionner", class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :division_id, "Division" %>
+    <%= f.collection_select :division_id, Division.all, :id, :name, prompt: "Sélectionner", class: "form-control" %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <%= f.label :home_score %>
+      <%= f.number_field :home_score, class: "form-control" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :away_score %>
+      <%= f.number_field :away_score, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <%= f.submit class: "btn btn-primary" %>
+  </div>
+<% end %>
