@@ -14,23 +14,16 @@ Championship.destroy_all
 Season.destroy_all
 Club.destroy_all
 
-# 2. Create Seasons
-puts "Creating seasons..."
-seasons = []
-["2024-2025", "2025-2026"].each do |year|
-  seasons << Season.create!(name: year)
-end
-puts "Created #{seasons.size} seasons"
+# 2. Create Season
+puts "Creating season..."
+season = Season.create!(name: "2025-2026")
+puts "Created season #{season.name}"
 
-# 3. Create Championships per season
+# 3. Create Championships
 puts "Creating championships..."
 championships = []
-seasons.each do |season|
-  championships << Championship.create!(name: "Foot à 11 - Elite - #{season.name}", season: season)
-  championships << Championship.create!(name: "Foot à 11 - Challenge - #{season.name}", season: season)
-  championships << Championship.create!(name: "Foot à 7 - Elite - #{season.name}", season: season)
-  championships << Championship.create!(name: "Foot à 7 - Challenge - #{season.name}", season: season)
-end
+championships << Championship.create!(name: "Foot à 11 - Elite - 2025-2026", season: season)
+championships << Championship.create!(name: "Foot à 7 - Elite - 2025-2026", season: season)
 puts "Created #{championships.size} championships"
 
 # 4. Create Divisions per championship
@@ -55,23 +48,26 @@ puts "Creating referee..."
 referee = Referee.create!(first_name: "Ali", last_name: "Benali", license_number: "REF123")
 puts "Created referee #{referee.first_name} #{referee.last_name}"
 
-# 7. Create Matches per division
+# 7. Create Matches per division (16 journées)
 puts "Creating matches..."
 divisions.each do |division|
-  6.times do |index|
-    home, away = clubs.sample(2)
-    Match.create!(
-      date: Date.today + rand(1..60).days,
-      kickoff_time: Time.now.change(hour: rand(14..20), min: [0,30].sample),
-      stadium: "Stade #{['Municipal', 'National', 'Olympique'].sample}",
-      home_club: home,
-      away_club: away,
-      referee: referee,
-      division: division,
-      match_day: index + 1,
-      home_score: rand(0..3),
-      away_score: rand(0..3)
-    )
+  16.times do |day|
+    # Créer 6 matchs par journée pour couvrir les 12 équipes
+    clubs_per_day = clubs.shuffle.each_slice(2).to_a
+    clubs_per_day.each do |home, away|
+      Match.create!(
+        date: Date.today + (day * 7), # 1 journée par semaine
+        kickoff_time: Time.now.change(hour: rand(14..20), min: [0, 30].sample),
+        stadium: "Stade #{['Municipal', 'National', 'Olympique'].sample}",
+        home_club: home,
+        away_club: away,
+        referee: referee,
+        division: division,
+        match_day: day + 1,
+        home_score: rand(0..3),
+        away_score: rand(0..3)
+      )
+    end
   end
 end
 
